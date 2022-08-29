@@ -1,0 +1,43 @@
+<?php
+
+
+class Author {
+
+    private $id;
+    private $name;
+    private $birth;
+    private $death;
+
+    public function __construct($id,$name,$birth)
+    {
+        $this->id = $id;
+        $this->name = $name;
+        $this->birth = $birth;
+    }
+
+    function get_id(){return $this->id;}
+    function get_name(){
+        return $this->name;
+    }
+
+    function set_name($name){
+        $this->name = $name;
+    }
+    
+    function get_birth(){
+        return $this->birth;
+    }
+
+    function set_birth($birth){
+        $this->birth = $birth;
+    }
+
+    function __toString()
+    {
+        return empty($this->death)?"[ Author : {$this->name}, Born in {$this->birth->format('Y-m-d H:i:s')} ]": "[ Author : {$this->name}, Born in {$this->birth}, died in {$this->death} ]";
+    }
+
+
+}
+
+?>
