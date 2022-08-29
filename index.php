@@ -1,12 +1,13 @@
 <?php 
-// include('../Author.php');
-// include('../Book.php');
-// include('../Category.php');
-// include('../Shelf.php');
+
 include_once './Author';
 include_once './Book.php';
 include_once './Category.php';
 include_once './Shelf.php';
+include_once './Db.php';
+
+$connection = new DB;
+$connection->connect();
 
 
 $category1 = new Category(1,"Fiction");
@@ -21,7 +22,6 @@ $book2 = new Book(2,"The alchemist",$author2,$category1,"",new DateTime('23.6.19
 
 $shelf = new Shelf(11,"A1",array($book1,$book2));
 
-// echo $book1;
 
 echo $shelf;
 
