@@ -3,18 +3,23 @@
 class Shelf {
 
     private $id;
+    private $reference;
     private $books;
     const MAX_CAPACITY = 20;
     private $number_of_books;
 
-    function __construct($id,$books)
+    function __construct($id,$reference ,$books)
     {
         $this->id = $id;
+        $this->reference = $reference;
         $this->books =  array();
         $this->books =  $books;
     }
 
     public function get_id(){return $this->id;}
+
+    public function get_reference(){return $this->reference;}
+    public function set_reference($reference){$this->reference = $reference;}
 
     function get_books(){
         return $this->books;
@@ -52,10 +57,10 @@ class Shelf {
 
     public function __toString()
     {
-        $describe = "{Id : {$this->get_id()}, number of book in the shelf: {$this->get_number_of_books()} <br>[";
+        $describe = "{Id : {$this->get_id()},Ref: {$this->reference}, number of book in the shelf: {$this->get_number_of_books()} <br>[";
 
         foreach($this->books as $book){
-           
+        
             $describe .= "".$book." ] <br> ";
         }
 
