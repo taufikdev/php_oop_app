@@ -18,6 +18,12 @@ class Category {
         return $this;
     }
 
+    public function construct_for_insert($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
     public function get_id(){return $this->id;}
     public function set_id($id){$this->id = $id;}
 
@@ -52,12 +58,12 @@ class Category {
         return $this;
     }
 
-    public function add($category){
+    public function add($category_name){
         $conn = new Db();
         $sql = "INSERT INTO category(name) VALUES(?)";
         $stmt = $conn->connect()->prepare($sql);
-        $stmt->execute([$category->name]);
-        echo "inserted";
+        $stmt->execute([$category_name]);
+        // echo "inserted";
     }
 
     public function delete($id){

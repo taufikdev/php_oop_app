@@ -11,9 +11,11 @@ class CategoryController implements Controller{
         return $category->all();
     }
 
-    public static function create($obj)
+    public static function create($req)
     {
-        // TODO: Implement create() method.
+        $category = new Category();
+        $category->add($req['category']);
+        header("location: category_view.php");
     }
 
     public static function show($id)
