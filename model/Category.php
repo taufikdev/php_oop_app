@@ -1,6 +1,6 @@
 <?php
-
-class Category {
+include_once "./config/Db.php";
+class Category extends Db {
 
     private $id;
     private $name;

@@ -1,6 +1,6 @@
 <?php
-
-class Shelf {
+include_once "./config/Db.php";
+class Shelf extends Db {
 
     private $id;
     private $reference;
