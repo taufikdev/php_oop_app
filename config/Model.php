@@ -1,14 +1,13 @@
 <?
 
-
 interface Model {
     
     
-    public function all();
-    public function find($id);
-    public function add($obj);
-    public function delete($id);
-    public function update($obj);
+    public static function all();
+    public static function find($id);
+    public static function add($obj);
+    public static function delete($id);
+    public static function update($obj);
 
 
 

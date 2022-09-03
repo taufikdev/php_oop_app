@@ -11,12 +11,14 @@ require_once "../controller/AuthorController.php";
     <div class="wrapper d-flex align-items-stretch">
         <?php include "../layouts/sidebar.html"; ?>
     <div id="content" class="p-4 p-md-5 pt-5">
+        <h3>List of authors</h3> <br>
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Name</th>
                 <th scope="col">Birth date</th>
+                <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,6 +28,8 @@ require_once "../controller/AuthorController.php";
                         <th scope="row"><?php echo $author->get_id();  ?></th>
                         <td><?php echo $author->get_name();  ?></td>
                         <td><?php echo $author->get_birth();  ?></td>
+                        <td><a name="" id="" class="btn btn-warning btn-sm" href="#" role="button">Edit</a> <a name="" id="" class="btn btn-danger btn-sm" href="#" role="button">Delete</a></td>
+
                         </tr>
                 <?php  endforeach ?>
                 

@@ -19,6 +19,7 @@ require "../controller/BookController.php";
                 <th scope="col">Category</th>
                 <th scope="col">Image</th>
                 <th scope="col">Publish date</th>
+                <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -29,8 +30,9 @@ require "../controller/BookController.php";
                         <td><?php echo $book->get_title();  ?></td>
                         <td><?php echo $book->get_author()->get_name() ?></td>
                         <td><?php echo $book->get_category();  ?></td>
-                        <td><?php echo $book->get_image();  ?></td>
+                        <td><img src="../images/<?php echo $book->get_image();  ?>" alt="img" width="50px"></td>
                         <td><?php echo $book->get_publish_date();  ?></td>
+                        <td><a name="" id="" class="btn btn-warning btn-sm" href="#" role="button">Edit</a> <a name="" id="" class="btn btn-danger btn-sm" href="#" role="button">Delete</a></td>
                         </tr>
                 <?php  endforeach ?>
                 
