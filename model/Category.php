@@ -71,7 +71,7 @@ class Category {
         $sql = "DELETE FROM category WHERE id = ?";
         $stmt = $conn->connect()->prepare($sql);
         $stmt->execute([$id]);
-        echo "Deleted";
+        //echo "Deleted";
     }
 
     public function update($category){
@@ -79,7 +79,7 @@ class Category {
         $sql = "UPDATE category set name= ? where id = ?";
         $stmt = $conn->connect()->prepare($sql);
         $stmt->execute([$category->name,$category->id]);
-        echo "updated";
+       // echo "updated";
     }
 
 

@@ -6,7 +6,7 @@ require_once "../controller/AuthorController.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
- <?php include "../layouts/header.html"; ?>
+<?php include "../layouts/header.html"; ?>
 <body>
     <div class="wrapper d-flex align-items-stretch">
         <?php include "../layouts/sidebar.html"; ?>
@@ -42,8 +42,6 @@ require_once "../controller/AuthorController.php";
     <?php include "../layouts/scripts.html"; ?>
 </body>
 </html>
-
-
 
 
 <!-- <form action="#" method="POST">

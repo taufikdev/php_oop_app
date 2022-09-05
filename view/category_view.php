@@ -1,9 +1,14 @@
 <?php
 require_once "../controller/CategoryController.php";
 
-if(isset($_POST['category'])){
+if(isset($_POST['action'])){
 
-    CategoryController::create($_POST);
+    if(isset($_POST['category']) && $_POST['action'] === 'add')
+        CategoryController::create($_POST);
+    if(isset($_POST['category']) && $_POST['action'] === 'edit')
+        CategoryController::update($_POST);
+    if($_POST['action'] === 'delete')
+        CategoryController::delete($_POST['id']);
 }
 
 
@@ -17,7 +22,7 @@ if(isset($_POST['category'])){
     <div id="content" class="p-4 p-md-5 pt-5">
         <div class="d-flex justify-content-between">
         <div><h3>List of categories</h3></div>  
-        <div> <a class="btn btn-info btn-sm" href="" role="button" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Add Category</a></div>
+        <div> <a class="btn btn-info btn-sm" href="" role="button" data-toggle="modal" data-target="#exampleModal" data-action="add">Add Category</a></div>
         </div><br>
         <table class="table table-striped table-hover">
             <thead>
@@ -33,7 +38,7 @@ if(isset($_POST['category'])){
                         <tr>
                         <th scope="row"><?php echo $category->get_id();  ?></th>
                         <td><?php echo $category->get_name();  ?></td>
-                        <td><a name="" id="" class="btn btn-warning btn-sm" href="#" role="button" data-toggle="modal" data-target="#exampleModal" data-name="<?php echo $category->get_name();  ?>" data-id="<?php echo $category->get_id();  ?>">Edit</a> <a name="" id="" class="btn btn-danger btn-sm" href="#" role="button">Delete</a></td>
+                        <td><a name="" id="" class="btn btn-warning btn-sm" href="#" role="button" data-toggle="modal" data-target="#exampleModal" data-name="<?php echo $category->get_name();  ?>" data-action="edit" data-id="<?php echo $category->get_id(); ?>">Edit</a> <a name="" id="" data-toggle="modal" data-target="#exampleModal" data-action="delete" data-id="<?php echo $category->get_id(); ?>"  data-name="<?php echo $category->get_name();  ?>" class="btn btn-danger btn-sm" href="#" role="button">Delete</a></td>
                         </tr>
                 <?php  endforeach ?>
                 
@@ -45,7 +50,7 @@ if(isset($_POST['category'])){
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Insert data</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -54,7 +59,8 @@ if(isset($_POST['category'])){
       <div class="modal-body">
           <div class="form-group">
             <input type="text" name="id" hidden id="cat-id">
-            <label for="recipient-name" class="col-form-label">Category Name:</label>
+            <input type="text" name="action" hidden id="cat-action">
+            <label for="recipient-name" id="cat-label" class="col-form-label">Category Name:</label>
             <input type="text" name="category" class="form-control" id="cat-name" style="border: .5px solid lightgray ;">
           </div>
         </div>
@@ -69,15 +75,30 @@ if(isset($_POST['category'])){
 <!-- -------------------------------------------modal script------------------------------------------------------------ -->
 <script>
 $(document).ready(function(){
-    
         $('#exampleModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget) // Button that triggered the modal
-            var category = button.data('name') // Extract info from data-* attributes
+            var button = $(event.relatedTarget)
+            var action = button.data('action')
+            var category = button.data('name') 
             var id = button.data('id');
             var modal = $(this)
-            // modal.find('.modal-title').text('New message to ' + recipient)
-            modal.find('#cat-name').val(category)
-            modal.find('#cat-id').val(id)
+            if(action === 'delete'){
+                modal.find('#cat-name').hide();
+                modal.find('#cat-label').text("Are you sure you want to delete category : "+category+" ?");
+                modal.find('.modal-title').text('Deleting Category');
+                modal.find('#cat-id').val(id)
+                modal.find('#cat-action').val(action)
+            }
+            else{
+                if(action === 'add')
+                    modal.find("#exampleModalLabel").text("Adding new category");
+                else
+                    modal.find("#exampleModalLabel").text("Edit category");
+                modal.find('#cat-name').show();
+                modal.find('#cat-label').text("Category Name:");
+                modal.find('#cat-name').val(category)
+                modal.find('#cat-id').val(id)
+                modal.find('#cat-action').val(action)
+            }
         })
 
 });

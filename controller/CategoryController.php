@@ -5,7 +5,7 @@ include "../config/Controller.php";
 
 class CategoryController implements Controller{
 
- static function index()
+static function index()
     {
         $category = new Category();
         return $category->all();
@@ -23,19 +23,19 @@ class CategoryController implements Controller{
         // TODO: Implement show() method.
     }
 
-    public static function update($id)
+    public static function update($req)
     {
-        // TODO: Implement update() method.
+        $category = new Category();
+        $category->update($category->construct($req['id'],$req['category']));
+        header("location: category_view.php");
     }
 
     public static function delete($id)
     {
-        // TODO: Implement delete() method.
+        $category = new Category();
+        $category->delete($id);
+        header("location: category_view.php");
     }
-
-
-
-
 
 
 }
