@@ -11,11 +11,18 @@ class Author {
 
     public function __construct(){}
 
-    public function construct($id,$name,$birth){
+    public function construct($id,$name,$birth,$death){
         
         $this->id = $id;
         $this->name = $name;
         $this->birth = $birth;
+        $this->death = $death;
+        return $this;
+    }
+    public function construct_for_insert($name,$birth,$death){
+        $this->name = $name;
+        $this->birth = $birth;
+        $this->death = $death;
         return $this;
     }
 
@@ -27,6 +34,9 @@ class Author {
     
     function get_birth(){return $this->birth;}
     function set_birth($birth){$this->birth = $birth;}
+    
+    function get_death(){return $this->death;}
+    function set_death($death){$this->death = $death;}
 
     function all(){
         $conn = new Db();
@@ -37,9 +47,8 @@ class Author {
 
         while($row = $stmt->fetch()){
             $auth =  new Author(); 
-            array_push($authors,$auth->construct($row['id'],$row['name'],$row['birth']));
+            array_push($authors,$auth->construct($row['id'],$row['name'],$row['birth'],$row['death']));
         }
-    
         return $authors;
     }
     
@@ -58,10 +67,9 @@ class Author {
 
     public function add($author){
         $conn = new Db();
-        $sql = "INSERT INTO author(name, birth, death) VALUES(?, ?, NULL)";
+        $sql = "INSERT INTO author(name, birth, death) VALUES(?, ?, ?)";
         $stmt = $conn->connect()->prepare($sql);
-        $stmt->execute([$author->name,$author->birth]);
-        echo "inserted";
+        $stmt->execute([$author->name,$author->birth,$author->death]);
     }
 
     public function delete($id){
@@ -69,24 +77,15 @@ class Author {
         $sql = "DELETE FROM author WHERE id = ?";
         $stmt = $conn->connect()->prepare($sql);
         $stmt->execute([$id]);
-        echo "Deleted";
     }
 
     public function update($author){
         $conn = new Db();
-        $sql = "UPDATE author set name= ?, birth = ? where id = ?";
+        $sql = "UPDATE author set name= ?, birth = ?, death = ? where id = ?";
         $stmt = $conn->connect()->prepare($sql);
-        $stmt->execute([$author->name, $author->birth,$author->id]);
-        echo "updated";
+        $stmt->execute([$author->name, $author->birth,$author->death,$author->id]);  
     }
-    // public function update($name,$birth,$id){
-    //     $conn = new Db();
-    //     $sql = "UPDATE author set name= ?, birth = ? where id = ?";
-    //     $stmt = $conn->connect()->prepare($sql);
-    //     $stmt->execute([$name, $birth,$id]);
-    //     echo "updated";
-    // }
-
+    
     public function __toString(){
         return empty($this->death)?"[ Author : {$this->name}, Born in {$this->birth->format('Y-m-d H:i:s')} ]": "[ Author : {$this->name}, Born in {$this->birth}, died in {$this->death} ]";
     }

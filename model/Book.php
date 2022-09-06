@@ -2,6 +2,7 @@
 include_once "../config/Db.php";
 include_once "../config/Model.php";
 include_once "../controller/AuthorController.php";
+include_once "../controller/CategoryController.php";
 include_once "Author.php";
 class Book{
 
@@ -53,7 +54,7 @@ class Book{
         while($row = $stmt->fetch()){
             // $author = new Author();
             $book =  new Book(); 
-            array_push($books,$book->construct($row['id'],$row['title'],AuthorController::show($row['author_id']),$row['category_id'],$row["image"],$row['publish_date']));
+            array_push($books,$book->construct($row['id'],$row['title'],AuthorController::show($row['author_id']),CategoryController::show($row['category_id']),$row["image"],$row['publish_date']));
             
         }
        

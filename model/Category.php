@@ -6,10 +6,7 @@ class Category {
     private $id;
     private $name;
 
-    public function __construct()
-    {
-    
-    }
+    public function __construct(){}
 
     public function construct($id,$name)
     {
@@ -63,7 +60,6 @@ class Category {
         $sql = "INSERT INTO category(name) VALUES(?)";
         $stmt = $conn->connect()->prepare($sql);
         $stmt->execute([$category_name]);
-        // echo "inserted";
     }
 
     public function delete($id){
@@ -71,7 +67,6 @@ class Category {
         $sql = "DELETE FROM category WHERE id = ?";
         $stmt = $conn->connect()->prepare($sql);
         $stmt->execute([$id]);
-        //echo "Deleted";
     }
 
     public function update($category){
@@ -79,7 +74,6 @@ class Category {
         $sql = "UPDATE category set name= ? where id = ?";
         $stmt = $conn->connect()->prepare($sql);
         $stmt->execute([$category->name,$category->id]);
-       // echo "updated";
     }
 
 

@@ -11,7 +11,6 @@ if(isset($_POST['action'])){
         CategoryController::delete($_POST['id']);
 }
 
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -44,33 +43,33 @@ if(isset($_POST['action'])){
                 
             </tbody>
         </table>
-        <!-- -------------------------------------------modal------------------------------------------------------------ -->
+<!-- -------------------------------------------modal------------------------------------------------------------ -->
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Insert data</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form action="" method="POST">
-      <div class="modal-body">
-          <div class="form-group">
-            <input type="text" name="id" hidden id="cat-id">
-            <input type="text" name="action" hidden id="cat-action">
-            <label for="recipient-name" id="cat-label" class="col-form-label">Category Name:</label>
-            <input type="text" name="category" class="form-control" id="cat-name" style="border: .5px solid lightgray ;">
-          </div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Insert data</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary" id="submit">Confirm</button>
+        <form action="" method="POST">
+        <div class="modal-body">
+            <div class="form-group">
+                <input type="text" name="id" hidden id="cat-id">
+                <input type="text" name="action" hidden id="cat-action">
+                <label for="recipient-name" id="cat-label" class="col-form-label">Category Name:</label>
+                <input type="text" name="category" class="form-control" id="cat-name" style="border: .5px solid lightgray ;">
+            </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" id="submit">Confirm</button>
+            </div>
+        </form>
         </div>
-    </form>
     </div>
-  </div>
 </div>
 <!-- -------------------------------------------modal script------------------------------------------------------------ -->
 <script>
@@ -100,12 +99,11 @@ $(document).ready(function(){
                 modal.find('#cat-action').val(action)
             }
         })
-
 });
 </script>
         <!-- -------------------------------------------modal------------------------------------------------------------ -->
-    </div>
-    </div>
-    <?php include "../layouts/scripts.html"; ?>
+</div>
+</div>
+<?php include "../layouts/scripts.html"; ?>
 </body>
 </html>

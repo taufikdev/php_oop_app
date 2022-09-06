@@ -13,5 +13,3 @@ interface Controller{
     public static function delete($id);
 
 }
-
-?>

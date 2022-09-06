@@ -1,11 +1,9 @@
 <?php
 include "../model/Category.php";
-include "../config/Controller.php";
 
+class CategoryController{
 
-class CategoryController implements Controller{
-
-static function index()
+    public static function index()
     {
         $category = new Category();
         return $category->all();
@@ -20,7 +18,8 @@ static function index()
 
     public static function show($id)
     {
-        // TODO: Implement show() method.
+        $category = new Category();
+        return $category->find($id);
     }
 
     public static function update($req)
@@ -36,6 +35,4 @@ static function index()
         $category->delete($id);
         header("location: category_view.php");
     }
-
-
 }
