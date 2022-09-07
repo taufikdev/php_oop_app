@@ -18,7 +18,7 @@ class Shelf {
     {
         $this->id = $id;
         $this->reference = $reference;
-        $this->books =  array();
+        // $this->books =  array(); 
         $this->books =  $books;
         return $this;
     }
