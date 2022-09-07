@@ -2,7 +2,15 @@
 require "../controller/BookController.php";
 require_once "../controller/AuthorController.php";
 require_once "../controller/CategoryController.php";
+if(isset($_POST['action'])){
 
+    if(isset($_POST['title']) && $_POST['action'] === 'add')
+        BookController::create($_POST);
+    if(isset($_POST['title']) && isset($_POST['publish']) && $_POST['action'] === 'edit')
+        BookController::update($_POST);
+    if($_POST['action'] === 'delete')
+        BookController::delete($_POST['id']);
+}
 ?>
 
 <!DOCTYPE html>
@@ -18,7 +26,7 @@ require_once "../controller/CategoryController.php";
             </div><br>
             <div class="table-responsive card" style="border-radius: 1em;">
             <table class="table table-striped table-hover">
-                <thead style="background-color: lightslategray; color:whitesmoke">
+                <thead style="background-color: #32373D; color:whitesmoke">
                     <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Title</th>
@@ -33,15 +41,18 @@ require_once "../controller/CategoryController.php";
                     
                     <?php foreach(BookController::index() as $book): ?>
                             <tr>
-                            <th scope="row"><?php echo $book->get_id();  ?></th>
-                            <td><?php echo $book->get_title();  ?></td>
-                            <td><span style="background-color: rgba(31, 255, 96, 0.22); padding: .5em;border-radius: .6em;" data-toggle="tooltip" data-placement="bottom" title="<?php echo 'Date of Birth:'.date_create($book->get_author()->get_birth())->format('Y-m-d'); ?>"> <?php echo $book->get_author()->get_name(); ?></span></td>
-                            <td><?php echo $book->get_category()->get_name();  ?></td>
-                            <td><img src="../images/<?php echo $book->get_image();  ?>" alt="img" width="50px"></td>
-                            <td><?php echo date_create($book->get_publish_date())->format('Y-m-d');  ?></td>
-                            <td><a name="" id="" class="btn btn-warning btn-sm" href="#" role="button">Edit</a> <a name="" id="" class="btn btn-danger btn-sm" href="#" role="button" >Delete</a></td>
+                                <th scope="row"><?php echo $book->get_id();  ?></th>
+                                <td><?php echo $book->get_title();  ?></td>
+                                <td><span style="background-color: rgba(31, 255, 96, 0.22); padding: .5em;border-radius: .6em;" data-toggle="tooltip" data-placement="bottom" title="<?php echo 'Date of Birth:'.date_create($book->get_author()->get_birth())->format('Y-m-d'); ?>"> <?php echo $book->get_author()->get_name(); ?></span></td>
+                                <td><?php echo $book->get_category()->get_name();  ?></td>
+                                <td><img src="../images/<?php echo $book->get_image();  ?>" alt="img" width="50px"></td>
+                                <td><?php echo date_create($book->get_publish_date())->format('Y-m-d');  ?></td>
+                                <td>
+                                    <a name="" id="" class="btn btn-warning btn-sm" href="#" role="button" data-toggle="modal" data-target="#exampleModal" data-action="edit" data-id="<?php echo $book->get_id();?>" data-title="<?php echo $book->get_title();?>" data-author="<?php echo $book->get_author()->get_id();?>" data-category="<?php echo $book->get_category()->get_id();?>" data-publish="<?php echo $book->get_publish_date();?>">Edit</a> 
+                                    <a name="" id="" class="btn btn-danger btn-sm" href="#" role="button" data-toggle="modal" data-target="#exampleModal" data-action="delete" data-id="<?php echo $book->get_id();?>" data-title="<?php echo $book->get_title();?>">Delete</a>
+                                </td>
                             </tr>
-                    <?php  endforeach ?>
+                    <?php endforeach ?>
                     
                 </tbody>
             </table>
@@ -59,12 +70,12 @@ require_once "../controller/CategoryController.php";
             <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <form action="" method="POST">
+        <form action="" method="POST" enctype="multipart/form-data">
         <div class="modal-body">
             <h5 style="color: lightcoral;" id="delete_message"></h5>
             <div class="form-group">
-                <input type="text" name="id" hidden id="auth-id">
-                <input type="text" name="action" hidden id="auth-action">
+                <input type="text" name="id" hidden id="book-id">
+                <input type="text" name="action" hidden id="book-action">
                 <label for="book-title" class="book-label" class="col-form-label">Title:</label>
                 <input type="text" name="title" class="form-control" id="book-title" style="border: .5px solid lightgray ;">
             </div>
@@ -75,7 +86,6 @@ require_once "../controller/CategoryController.php";
                         <option value="<?php echo $author->get_id();?>"><?php echo $author->get_name();?></option>
                         <?php endforeach ?>
                 </select>
-                <!-- <input type="date" name="author" class="form-control" id="book-author" style="border: .5px solid lightgray ;"> -->
             </div>
             <div class="form-group">
                 <label for="book-category" class="book-label" class="col-form-label">Category:</label>
@@ -91,7 +101,7 @@ require_once "../controller/CategoryController.php";
             </div>
             <div class="form-group">
                 <label for="book-publish" class="book-label" class="col-form-label">Published :</label>
-                <input type="date" name="image" class="form-control" id="book-publish" style="border: .5px solid lightgray ;">
+                <input type="date" name="publish" class="form-control" id="book-publish" style="border: .5px solid lightgray ;">
             </div>
             </div>
             <div class="modal-footer">
@@ -105,56 +115,60 @@ require_once "../controller/CategoryController.php";
 <!-- -------------------------------------------modal script------------------------------------------------------------ -->
 <script>
 $(document).ready(function(){
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-        })
+
+        $(function () {$('[data-toggle="tooltip"]').tooltip() })
+
         $('#exampleModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget)
             var action = button.data('action')
-            var name = button.data('name') 
             var id = button.data('id');
-            var birth = button.data('birth');
-            var death = button.data('death');
+            var title = button.data('title') 
+            var author = button.data('author');
+            var category = button.data('category');
+            var publish = button.data('publish');
             var modal = $(this)
             if(action === 'delete'){
-                modal.find('#auth-name').hide();
-                modal.find('#auth-birth').hide();
-                modal.find('#auth-death').hide();
-                modal.find('.auth-label').hide();
-                modal.find('#delete_message').text("Are you sure you want to delete Author : "+name+" ?");
-                modal.find('.modal-title').text('Deleting Author');
-                modal.find('#auth-id').val(id)
-                modal.find('#auth-action').val(action)
+                modal.find('#book-title').hide();
+                modal.find('#book-author').hide();
+                modal.find('#book-category').hide();
+                modal.find('#book-image').hide();
+                modal.find('#book-publish').hide();
+                modal.find('.book-label').hide();
+                modal.find('#delete_message').text("Are you sure you want to delete Book : "+title+" ?");
+                modal.find('.modal-title').text('Deleting Book');
+                modal.find('#book-id').val(id)
+                modal.find('#book-action').val(action)
             }
             else{
                 if(action === 'add'){
-                    modal.find("#exampleModalLabel").text("Adding new author");
+                    modal.find("#exampleModalLabel").text("Adding new Book");
                     modal.find('#delete_message').text('');
-                    modal.find('#auth-name').show();
-                    modal.find('#auth-birth').show();
-                    modal.find('#auth-death').show();
-                    modal.find('.auth-label').show();
-                    modal.find('.auth-label').text("Author Name:");
-                    modal.find('#auth-name').val(name)
-                    modal.find('#auth-id').val(id);
-                    modal.find('#auth-action').val(action)
+                    modal.find('#book-title').show();
+                    modal.find('#book-author').show();
+                    modal.find('#book-category').show();
+                    modal.find('#book-image').show();
+                    modal.find('#book-publish').show();
+                    modal.find('.book-label').show();
+                    modal.find('#book-title').val("")
+                    modal.find('#book-action').val(action)
                 }
-                else{
-                    modal.find("#exampleModalLabel").text("Edit author");
+                else if(action === 'edit') {
+                    modal.find("#exampleModalLabel").text("Edit book");
                     modal.find('#delete_message').text('');
-                    modal.find('#auth-name').show();
-                    modal.find('#auth-birth').show();
-                    modal.find('#auth-death').show();
-                    modal.find('.auth-label').show();
-                    modal.find('.auth-label').text("Author Name:");
-                    modal.find('#auth-name').val(name)
-                    modal.find('#auth-id').val(id);
-                    var dt = birth.split('-');
+                    modal.find('#book-title').show();
+                    modal.find('#book-author').show();
+                    modal.find('#book-category').show();
+                    modal.find('#book-image').show();
+                    modal.find('#book-publish').show();
+                    modal.find('.book-label').show();
+                    modal.find('#book-id').val(id);
+                    modal.find('#book-title').val(title)
+                    modal.find('#book-author').val(author);
+                    modal.find('#book-category').val(category);
+                    var dt = publish.split('-');
                     var date = dt[2].substr(0,2) +"/"+ dt[1] +"/"+ dt[0];
-                    alert(date)
-                    modal.find('#auth-birth').val(date);
-                    modal.find('#auth-death').val(death)
-                    modal.find('#auth-action').val(action)
+                    modal.find('#book-publish').val(date);
+                    modal.find('#book-action').val(action)
                 }
             }
         })
@@ -162,15 +176,12 @@ $(document).ready(function(){
 });  
 </script>
 <style>
-    .tooltip-inner {
-  background-color: #00acd6 !important;
-  /*!important is not necessary if you place custom.css at the end of your css calls. For the purpose of this demo, it seems to be required in SO snippet*/
-  color: #fff;
+.tooltip-inner {
+    background-color: #00acd6 !important;
+    color: #fff;
 }
-
-
 .tooltip.left .tooltip-arrow {
-  border-left-color: #00acd6;
+    border-left-color: #00acd6;
 }
 </style>
 <?php include "../layouts/scripts.html"; ?>

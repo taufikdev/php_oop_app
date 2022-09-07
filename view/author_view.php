@@ -40,7 +40,7 @@ if(isset($_POST['action'])){
                         <td><?php echo date_create($author->get_birth())->format('Y-m-d');  ?></td>
                         <td><?php echo date_create($author->get_death())->format('Y-m-d');  ?></td>
                         <td>
-                            <a name="" id="" class="btn btn-warning btn-sm" href="#" role="button" data-toggle="modal" data-target="#exampleModal" data-action="edit" data-id="<?php echo $author->get_id();?>" data-name="<?php echo $author->get_name();?>" data-birth="<?php echo $author->get_birth();?>" data-death="<?php echo $author->get_death();?>">Edit</a> 
+                            <a name="" id="" class="btn btn-warning btn-sm" href="#" role="button" data-toggle="modal" data-target="#exampleModal" data-action="edit" data-id="<?php echo $author->get_id();?>" data-name="<?php echo $author->get_name();?>" data-birth="<?php echo date_create($author->get_birth())->format('Y-m-d');?>" data-death="<?php echo $author->get_death();?>">Edit</a> 
                             <a name="" id="" class="btn btn-danger btn-sm" href="#" role="button" data-toggle="modal" data-target="#exampleModal" data-action="delete" data-id="<?php echo $author->get_id();?>" data-name="<?php echo $author->get_name();?>">Delete</a>
                         </td>
                         </tr>
@@ -130,8 +130,7 @@ $(document).ready(function(){
                     modal.find('#auth-name').val(name)
                     modal.find('#auth-id').val(id);
                     var dt = birth.split('-');
-                    var date = dt[2].substr(0,2) +"/"+ dt[1] +"/"+ dt[0];
-                    alert(date)
+                    var date = dt[2] +"/"+ dt[1] +"/"+ dt[0];
                     modal.find('#auth-birth').val(date);
                     modal.find('#auth-death').val(death)
                     modal.find('#auth-action').val(action)
