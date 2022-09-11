@@ -1,4 +1,5 @@
 <?php
+require "../config/Auth.php";
 require "../controller/BookController.php";
 require_once "../controller/AuthorController.php";
 require_once "../controller/CategoryController.php";

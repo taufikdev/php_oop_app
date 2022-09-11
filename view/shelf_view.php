@@ -1,4 +1,6 @@
 <?php
+require "../config/Auth.php";
+
 require_once "../controller/ShelfController.php";
 ?>
 

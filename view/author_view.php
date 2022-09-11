@@ -1,5 +1,7 @@
 <?php
+require "../config/Auth.php";
 require_once "../controller/AuthorController.php";
+
 if(isset($_POST['action'])){
 
     if(isset($_POST['name']) && isset($_POST['birth']) && $_POST['action'] === 'add')

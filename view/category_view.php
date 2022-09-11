@@ -1,6 +1,6 @@
 <?php
+require "../config/Auth.php";
 require_once "../controller/CategoryController.php";
-
 if(isset($_POST['action'])){
 
     if(isset($_POST['category']) && $_POST['action'] === 'add')
